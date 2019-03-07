@@ -4,7 +4,7 @@
             [clojure.java.io :as io]
             [clojure.instant :as instant]))
 
-(defn initialize-from-csv "initializes store from given CVS file" [path]
+(defn initialize-from-csv "initializes store from given CSV file" [path]
   (atom
    (with-open [reader (io/reader path)]
      (map
