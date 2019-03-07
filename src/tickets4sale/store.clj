@@ -1,13 +1,19 @@
 (ns tickets4sale.store
   (:require [com.stuartsierra.component :as component]
             [clojure.data.csv :as csv]
-            [clojure.java.io :as io]))
+            [clojure.java.io :as io]
+            [clojure.instant :as instant]))
 
 (defn initialize-from-csv "initializes store from given CVS file" [path]
   (atom
-    (with-open [reader (io/reader path)]
+   (with-open [reader (io/reader path)]
+     (map
+      (fn [row]
+        {:title (nth row 0)
+         :date  (instant/read-instant-date (nth row 1))
+         :type  (nth row 2)})
       (doall
-       (csv/read-csv reader)))))
+       (csv/read-csv reader))))))
 
 (defrecord InMemoryStore [path]
 
