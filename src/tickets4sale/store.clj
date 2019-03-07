@@ -4,19 +4,19 @@
             [clojure.java.io :as io]))
 
 (defn initialize-from-csv "initializes store from given CVS file" [path]
-  (with-open [reader (io/reader path)]
-    (doall
-     (csv/read-csv reader))))
+  (atom
+    (with-open [reader (io/reader path)]
+      (doall
+       (csv/read-csv reader)))))
 
-(defrecord InMemoryStore [data]
+(defrecord InMemoryStore [path]
 
   component/Lifecycle
 
   (start [this]
-    (assoc this :shows (atom {})))
+    (assoc this :shows (initialize-from-csv path)))
 
   (stop [this] this))
 
-(defn make-store
-  []
-  (map->InMemoryStore {}))
+(defn make-store [path]
+  (map->InMemoryStore {:path path}))
