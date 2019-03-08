@@ -4,16 +4,19 @@
             [clojure.java.io :as io]
             [clojure.instant :as instant]))
 
+; in memory store
+(defonce store (atom {}))
+
+(defn normalize-row "normalizes row from data in workable format" [row]
+  {:title (nth row 0)
+   :date  (instant/read-instant-date (nth row 1))
+   :type  (nth row 2)})
+
 (defn initialize-from-csv "initializes store from given CSV file" [path]
-  (atom
-   (with-open [reader (io/reader path)]
-     (map
-      (fn [row]
-        {:title (nth row 0)
-         :date  (instant/read-instant-date (nth row 1))
-         :type  (nth row 2)})
-      (doall
-       (csv/read-csv reader))))))
+  (swap! store assoc :shows
+         (let [data (with-open [reader (io/reader path)]
+                      (doall (csv/read-csv reader)))]
+           (map #(normalize-row %) data))))
 
 (defrecord InMemoryStore [path]
 
