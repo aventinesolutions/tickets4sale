@@ -12,4 +12,5 @@
                  [bidi "2.1.5"]]
   :main ^:skip-aot tickets4sale.core
   :target-path "target/%s"
-  :profiles {:uberjar {:aot :all}})
+  :profiles {:uberjar {:aot :all}}
+  :global-vars {*warn-on-reflection* true})
