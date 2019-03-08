@@ -8,5 +8,5 @@
     (empty? args)
     (println "please indicate you want to use 'cli' or 'server'")
     (= "cli" (string/lower-case (first args)))
-    (println (:store (system/init-cli-system (nth args 1))))
+    (doall (system/init-cli-system (nth args 1)) (system/start-cli!))
     :else (println "don't know what to do" args "...?")))

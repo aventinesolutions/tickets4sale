@@ -15,9 +15,9 @@
   (let [sys (build-cli-system path)]
     (alter-var-root #'cli-system (constantly sys))))
 
-(defn stop! "Stop CLI system" []
+(defn stop-cli! "Stop CLI system" []
   (alter-var-root #'cli-system component/stop-system))
 
-(defn start! "Start CLI system" [path]
-  (alter-var-root #'cli-system component/start-system path)
+(defn start-cli! "Start CLI system" []
+  (alter-var-root #'cli-system component/start-system)
   (println "CLI System started"))
