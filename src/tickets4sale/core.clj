@@ -4,7 +4,9 @@
             [clojure.string :as string]))
 
 (defn -main "cli path-to-csv-file: start and use a CLI system" [& args]
-  (if
+  (cond
+    (empty? args)
+    (println "please indicate you want to use 'cli' or 'server'")
     (= "cli" (string/lower-case (first args)))
-    (system/init-cli-system (nth args 1))
-    (println "don't know what to do")))
+    (println (:store (system/init-cli-system (nth args 1))))
+    :else (println "don't know what to do" args "...?")))
