@@ -3,21 +3,4 @@
             [tickets4sale.store :as store]
             [clojure.tools.logging :refer [error]]))
 
-(def ^:redef cli-system "The CLI system." nil)
-
-(defn build-cli-system "Defines CLI system map." [path]
-  (try
-    (component/system-map :store (store/make-store path))
-    (catch Exception e
-      (error "Failed to build CLI system" e))))
-
-(defn init-cli-system [path]
-  (let [sys (build-cli-system path)]
-    (alter-var-root #'cli-system (constantly sys))))
-
-(defn stop-cli! "Stop CLI system" []
-  (alter-var-root #'cli-system component/stop-system))
-
-(defn start-cli! "Start CLI system" []
-  (alter-var-root #'cli-system component/start-system)
-  (println "CLI System started"))
+;empty for now

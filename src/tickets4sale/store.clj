@@ -17,15 +17,3 @@
          (let [data (with-open [reader (io/reader path)]
                       (doall (csv/read-csv reader)))]
            (map #(normalize-row %) data))))
-
-(defrecord InMemoryStore [path]
-
-  component/Lifecycle
-
-  (start [this]
-    (assoc this :shows (initialize-from-csv path)))
-
-  (stop [this] this))
-
-(defn make-store [path]
-  (map->InMemoryStore {:path path}))

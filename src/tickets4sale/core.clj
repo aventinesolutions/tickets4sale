@@ -1,6 +1,6 @@
 (ns tickets4sale.core
   (:gen-class)
-  (:require [tickets4sale.system :as system]
+  (:require [tickets4sale.store :as store]
             [clojure.string :as string]))
 
 (defn -main "cli path-to-csv-file: start and use a CLI system" [& args]
@@ -8,5 +8,6 @@
     (empty? args)
     (println "please indicate you want to use 'cli' or 'server'")
     (= "cli" (string/lower-case (first args)))
-    (doall (system/init-cli-system (nth args 1)) (system/start-cli!))
+    (do (store/initialize-from-csv (nth args 1))
+      (println (:shows @store/store)))
     :else (println "don't know what to do" args "...?")))
