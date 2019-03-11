@@ -11,6 +11,7 @@
                  [aleph "0.4.6"]
                  [hiccup "1.0.5"]
                  [bidi "2.1.5"]]
+  :plugins [[lein-eftest "0.5.7"]]
   :main ^:skip-aot tickets4sale.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}}

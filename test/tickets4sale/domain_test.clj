@@ -5,7 +5,7 @@
 
 (deftest domain-tests
 
-  (deftest domain-constants-tests
+  (deftest domain-constants-test
     (testing "the number of days a show always runs"
              (is (= 100 show-run-in-days)))
     (testing "venue is always moved to the smaller after days"
