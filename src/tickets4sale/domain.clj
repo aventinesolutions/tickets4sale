@@ -11,13 +11,22 @@
 
 (def smaller-venue-capacity-seats 100)
 
-(def tickets-sold-per-day-bigger-venue 25)
+(def sales-start-days-before-opening 25)
+
+(def tickets-sold-per-day-bigger-venue 10)
 
 (def tickets-sold-per-day-smaller-venue 5)
 
+(defn ticket-sales-started?
+  "have the ticket sales started?"
+  [query-date show-start]
+
+  )
+
 (defn ticket-sales-start
   "the day that ticket sales will/did start"
-  [show-start])
+  [query-date show-start]
+  )
 
 (defn venue-type
   "the venue type based on the number of days the show has been running"
