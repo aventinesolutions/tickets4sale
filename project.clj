@@ -7,6 +7,7 @@
   :dependencies [[org.clojure/clojure "1.10.0"]
                  [org.clojure/data.csv "0.1.4"]
                  [com.stuartsierra/component "0.4.0"]
+                 [clojure.java-time "0.3.2"]
                  [aleph "0.4.6"]
                  [hiccup "1.0.5"]
                  [bidi "2.1.5"]]
