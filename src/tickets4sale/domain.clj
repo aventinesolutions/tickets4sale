@@ -4,7 +4,7 @@
 
 (def show-run-in-days (time/days 100))
 
-(def move-to-smaller-venue-after-days 60)
+(def move-to-smaller-venue-after-days (time/days 60))
 
 (def larger-venue-capacity-seats 200)
 
@@ -15,6 +15,8 @@
 (def tickets-sold-per-day-bigger-venue 10)
 
 (def tickets-sold-per-day-smaller-venue 5)
+
+(def ticket-inventory-bigger-venue-before-start (* 60 200))
 
 (defn ticket-sales-start
   "the day that ticket sales will/did start"

@@ -9,7 +9,7 @@
     (testing "the number of days a show always runs"
              (is (= (time/days 100) show-run-in-days)))
     (testing "venue is always moved to the smaller after days"
-             (is (= 60 move-to-smaller-venue-after-days)))
+             (is (= (time/days 60) move-to-smaller-venue-after-days)))
     (testing "the larger venue always has seats capacity"
              (is (= 200 larger-venue-capacity-seats)))
     (testing "the smaller venue always has seats capacity"
@@ -19,7 +19,9 @@
     (testing "the number of tickets sold per day for larger venues is always"
              (is (= 10 tickets-sold-per-day-bigger-venue)))
     (testing "the number of tickets sold per day for smaller venus is always"
-             (is (= 5 tickets-sold-per-day-smaller-venue))))
+             (is (= 5 tickets-sold-per-day-smaller-venue)))
+    (testing "the total inventory of tickets that could be sold for bigger venue before sales start"
+             (is (= 12000 ticket-inventory-bigger-venue-before-start))))
 
   (let [show-opening (time/local-date "2019-01-15")]
     (deftest ticket-sales-start-test
