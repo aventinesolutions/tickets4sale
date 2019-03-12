@@ -73,11 +73,19 @@
 
   (let [show-opening (time/local-date "2011-06-15")]
     (deftest tickets-left-bigger-venue-test
-      (testing "sale not startued"
-               (is
-                (= 0
-                   (tickets-left-bigger-venue (time/local-date "2011-01-01") show-opening))))
-      (testing "sale just startued"
+      (testing "sale not startued, all tickets available for bigger venue"
                (is
                 (= 12000
-                   (tickets-left-bigger-venue (time/local-date "2011-05-20") show-opening)))))))
+                   (tickets-left-bigger-venue (time/local-date "2011-01-01") show-opening))))
+      (testing "sale just startued, all bigger venue tickets available"
+               (is
+                (= 12000
+                   (tickets-left-bigger-venue (time/local-date "2011-05-20") show-opening))))
+      (testing "some tickets left for the bigger venue"
+               (is
+                (= 11860
+                   (tickets-left-bigger-venue (time/local-date "2011-06-01") show-opening))))
+      (testing "all tickets sold-out for the bigger venue"
+               (is
+                (= 0
+                   (tickets-left-bigger-venue (time/local-date "2011-07-22") show-opening)))))))

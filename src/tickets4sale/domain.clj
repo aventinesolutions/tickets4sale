@@ -46,8 +46,11 @@
   "the number of tickets left for bigger venue based on query date and show opening"
   [query-date show-opening]
   (if (not (ticket-sales-started? query-date show-opening))
-    0
-    ()))
+    ticket-inventory-bigger-venue-before-start
+    (max 0
+         (- ticket-inventory-bigger-venue-before-start
+           (* tickets-sold-per-day-bigger-venue
+              (number-of-days-between query-date show-opening))))))
 
 (defn show-status
   "the status of the show based on query date and when the show opens"
