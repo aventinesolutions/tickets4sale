@@ -18,6 +18,11 @@
 
 (def ticket-inventory-bigger-venue-before-start (* 60 200))
 
+(defn number-of-days-between
+  "the number of days between two dates; could be negative if end date is before start"
+  [start-date end-date]
+  (-> (java.time.temporal.ChronoUnit/DAYS) (.between start-date end-date)))
+
 (defn ticket-sales-start
   "the day that ticket sales will/did start"
   [show-opening]
@@ -31,11 +36,18 @@
 
 (defn total-days-run-by-venue-type
   "the total days run in each of larger and smaller venue types"
-  [show-date show-opening])
+  [query-date show-date show-opening])
 
 (defn tickets-left
   "the number of tickets left based on days running"
-  [show-date show-opening])
+  [query-date show-date show-opening])
+
+(defn tickets-left-bigger-venue
+  "the number of tickets left for bigger venue based on query date and show opening"
+  [query-date show-opening]
+  (if (not (ticket-sales-started? query-date show-opening))
+    0
+    ()))
 
 (defn show-status
   "the status of the show based on query date and when the show opens"

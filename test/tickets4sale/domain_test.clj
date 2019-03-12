@@ -23,6 +23,21 @@
     (testing "the total inventory of tickets that could be sold for bigger venue before sales start"
              (is (= 12000 ticket-inventory-bigger-venue-before-start))))
 
+  (let [show-opening (time/local-date "1956-07-05")]
+   (deftest number-of-days-between-test)
+   (testing "a calendar interval representing positive days"
+            (is
+             (= 82
+                (number-of-days-between (time/local-date "1956-04-14") show-opening))))
+   (testing "a calendar interval representing negative days"
+            (is
+             (= -79
+                (number-of-days-between (time/local-date "1956-09-22") show-opening))))
+   (testing "a zero canlendar interval on the same day"
+            (is
+             (= 0
+                (number-of-days-between (time/local-date "1956-07-05") show-opening)))))
+
   (let [show-opening (time/local-date "2019-01-15")]
     (deftest ticket-sales-start-test
       (testing "provides a date sales will/did start"
@@ -57,4 +72,12 @@
                  (show-status (time/local-date "2019-01-03") show-opening))))))
 
   (let [show-opening (time/local-date "2011-06-15")]
-    (deftest total-days-run-by-by-venue-type-test)))
+    (deftest tickets-left-bigger-venue-test
+      (testing "sale not startued"
+               (is
+                (= 0
+                   (tickets-left-bigger-venue (time/local-date "2011-01-01") show-opening))))
+      (testing "sale just startued"
+               (is
+                (= 12000
+                   (tickets-left-bigger-venue (time/local-date "2011-05-20") show-opening)))))))
