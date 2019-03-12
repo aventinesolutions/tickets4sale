@@ -25,11 +25,10 @@
   "have the ticket sales started?"
   [query-date show-opening]
   (let [sales-start (ticket-sales-start show-opening)]
-    (or (= query-date sales-start)
-        (time/after? query-date sales-start))))
+    (not (time/before? query-date sales-start))))
 
-(defn venue-type
-  "the venue type based on the number of days the show has been running"
+(defn total-days-run-by-venue-type
+  "the total days run in each of larger and smaller venue types"
   [show-date show-opening])
 
 (defn tickets-left

@@ -31,11 +31,11 @@
 
     (let [query-date (time/local-date "2018-12-31")]
       (deftest ticket-sales-started?-test
-        (testing "true if sales have started based on query date"
+        (testing "true if sales have started based on query date after the show opening"
                  (is
                   (true?
                    (ticket-sales-started? query-date show-opening))))
-        (testing "true if sales started exeactly on query date"
+        (testing "true if sales started exactly on query date"
                  (is
                   (true?
                    (ticket-sales-started?
@@ -52,4 +52,7 @@
                (is
                 (=
                  "sale not started"
-                 (show-status (time/local-date "2019-01-03") show-opening)))))))
+                 (show-status (time/local-date "2019-01-03") show-opening))))))
+
+  (let [show-opening (time/local-date "2011-06-15")]
+    (deftest total-days-run-by-by-venue-type-test)))
