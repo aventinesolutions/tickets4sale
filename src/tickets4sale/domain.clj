@@ -35,7 +35,8 @@
 (defn in-smaller-venue?
   "is the show performance in the smaller venue? (based on show premiere dates)"
   [show-date premiere-date]
-  (not (jt/before? show-date (jt/plus premiere-date move-to-smaller-venue-after-days))))
+  (not
+    (jt/before? show-date (jt/plus premiere-date move-to-smaller-venue-after-days))))
 
 (defn capacity
   "return total capicity based on show and premiere dates"
@@ -45,9 +46,24 @@
     smaller-venue-capacity-seats
     larger-venue-capacity-seats))
 
+(defn sold-per-day
+  "return tickets sold per day based show and premiere dates"
+  [show-date premiere-date]
+  (if
+    (in-smaller-venue? show-date premiere-date)
+    tickets-sold-per-day-smaller-venue
+    tickets-sold-per-day-bigger-venue))
+
+(defn tickets-sold
+  "returns the tickets sold based on the query, show and premiere dates"
+  [query-date show-date premiere-date]
+  (if-not (ticket-sales-started? query-date show-date) 0
+    (min (capacity show-date premiere-date)
+      (* (number-of-days-between query-date show-date) (sold-per-day show-date premiere-date)))))
+
 (defn show-status
   "the status of the show based on query date and when the show opens"
   [query-date show-date]
-  (if (not (ticket-sales-started? query-date show-date))
+  (if-not (ticket-sales-started? query-date show-date)
     "sale not started"
     "unknown"))

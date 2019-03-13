@@ -79,7 +79,22 @@
       (testing "200 if show performs in the larger venue"
                (is (= 200 (capacity (jt/local-date "2017-06-04") premiere-date))))
       (testing "100 if show performs in the smaller venue"
-               (is (= 100 (capacity (jt/local-date "2017-06-06") premiere-date))))))
+               (is (= 100 (capacity (jt/local-date "2017-06-06") premiere-date)))))
+
+    (deftest sold-per-day-test
+      (testing "10 if show performs in the larger venue"
+               (is (= 10 (sold-per-day (jt/local-date "2017-06-04") premiere-date))))
+      (testing "5 if show performs in the smaller venue"
+               (is (= 5 (sold-per-day (jt/local-date "2017-06-06") premiere-date)))))
+
+    (deftest tickets-sold-test
+      (let [show-date (jt/local-date "2017-06-06")]
+        (for [day  (take 26 (range))
+              :let [query-date
+                    (jt/plus (ticket-sales-start show-date) (jt/days day))]]
+          (do (println (tickets-sold query-date show-date premiere-date))
+            (testing "calcultes number of tickets sold based on query, show and premiere dates"
+                     (is (> 0 (tickets-sold query-date show-date premiere-date)))))))))
 
   (let [show-date (jt/local-date "2019-02-02")]
     (deftest show-status-tests
