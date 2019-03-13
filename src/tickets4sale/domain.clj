@@ -32,6 +32,19 @@
   (let [sales-start (ticket-sales-start show-date)]
     (not (jt/before? query-date sales-start))))
 
+(defn in-smaller-venue?
+  "is the show performance in the smaller venue? (based on show premiere dates)"
+  [show-date premiere-date]
+  (not (jt/before? show-date (jt/plus premiere-date move-to-smaller-venue-after-days))))
+
+(defn capacity
+  "return total capicity based on show and premiere dates"
+  [show-date premiere-date]
+  (if
+    (in-smaller-venue? show-date premiere-date)
+    smaller-venue-capacity-seats
+    larger-venue-capacity-seats))
+
 (defn show-status
   "the status of the show based on query date and when the show opens"
   [query-date show-date]
