@@ -85,16 +85,7 @@
       (testing "10 if show performs in the larger venue"
                (is (= 10 (sold-per-day (jt/local-date "2017-06-04") premiere-date))))
       (testing "5 if show performs in the smaller venue"
-               (is (= 5 (sold-per-day (jt/local-date "2017-06-06") premiere-date)))))
-
-    (deftest tickets-sold-test
-      (let [show-date (jt/local-date "2017-06-06")]
-        (for [day  (take 26 (range))
-              :let [query-date
-                    (jt/plus (ticket-sales-start show-date) (jt/days day))]]
-          (do (println (tickets-sold query-date show-date premiere-date))
-            (testing "calcultes number of tickets sold based on query, show and premiere dates"
-                     (is (> 0 (tickets-sold query-date show-date premiere-date)))))))))
+               (is (= 5 (sold-per-day (jt/local-date "2017-06-06") premiere-date))))))
 
   (let [show-date (jt/local-date "2019-02-02")]
     (deftest show-status-tests
@@ -102,6 +93,90 @@
                (is
                 (=
                  "sale not started"
-                 (show-status (jt/local-date "2019-01-03") show-date)))))))
+                 (show-status (jt/local-date "2019-01-03") show-date))))))
 
-
+  (deftest tickets-sold-test
+    (testing "tickets sold pattern for a performance in the larger venue"
+             (let [sales-pattern (let [show-date     (jt/local-date "2017-06-06")
+                                       premiere-date (jt/local-date "2017-05-06")]
+                                   (vec
+                                    (map
+                                     #(let [query-date
+                                            (jt/plus (ticket-sales-start show-date) (jt/days %))]
+                                       (tickets-sold query-date show-date premiere-date))
+                                     (take 25 (range)))))]
+               (is
+                (=
+                 [10
+                  20
+                  30
+                  40
+                  50
+                  60
+                  70
+                  80
+                  90
+                  100
+                  110
+                  120
+                  130
+                  140
+                  150
+                  160
+                  170
+                  180
+                  190
+                  200
+                  200
+                  200
+                  200
+                  200
+                  200]
+                 sales-pattern))))
+    (testing "tickets sold pattern for a performance in the smaller venue"
+             (let [sales-pattern (let [show-date     (jt/local-date "2006-01-01")
+                                       premiere-date (jt/local-date "2005-10-17")]
+                                   (vec
+                                    (map
+                                     #(let [query-date
+                                            (jt/plus (ticket-sales-start show-date) (jt/days %))]
+                                       (tickets-sold query-date show-date premiere-date))
+                                     (take 25 (range)))))]
+               (is
+                (=
+                 [5
+                  10
+                  15
+                  20
+                  25
+                  30
+                  35
+                  40
+                  45
+                  50
+                  55
+                  60
+                  65
+                  70
+                  75
+                  80
+                  85
+                  90
+                  95
+                  100
+                  100
+                  100
+                  100
+                  100
+                  100]
+                 sales-pattern))))
+    (testing "zero tickets are sold when sales have not started yet"
+             (let [query-date    (jt/local-date "1998-02-01")
+                   show-date     (jt/local-date "1998-06-15")
+                   premiere-date show-date]
+               (is (= 0 (tickets-sold query-date show-date premiere-date)))))
+    (testing "assumes capacity tickets sold when query date is after the show date"
+             (let [query-date    (jt/local-date "1958-09-22")
+                   show-date     (jt/local-date "1958-09-21")
+                   premiere-date show-date]
+               (is (= 200 (tickets-sold query-date show-date premiere-date)))))))

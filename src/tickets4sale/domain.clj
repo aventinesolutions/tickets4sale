@@ -57,9 +57,15 @@
 (defn tickets-sold
   "returns the tickets sold based on the query, show and premiere dates"
   [query-date show-date premiere-date]
-  (if-not (ticket-sales-started? query-date show-date) 0
-    (min (capacity show-date premiere-date)
-      (* (number-of-days-between query-date show-date) (sold-per-day show-date premiere-date)))))
+  (let [capacity (capacity show-date premiere-date)]
+    (cond
+      (not (ticket-sales-started? query-date show-date))     0
+      (jt/after? query-date show-date)                       capacity
+      :else
+      (min capacity
+           (*
+            (inc (- (number-of-days-between query-date (jt/minus show-date sales-start-days-before-show))))
+            (sold-per-day show-date premiere-date))))))
 
 (defn show-status
   "the status of the show based on query date and when the show opens"
