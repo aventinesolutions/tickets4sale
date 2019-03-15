@@ -67,6 +67,11 @@
             (inc (- (number-of-days-between query-date (jt/minus show-date sales-start-days-before-show))))
             (sold-per-day show-date premiere-date))))))
 
+(defn tickets-left
+  "returns the tickets left based on the query, show and premiere dates"
+  [query-date show-date premiere-date]
+  (- (capacity show-date premiere-date) (tickets-sold query-date show-date premiere-date)))
+
 (defn show-status
   "the status of the show based on query date and when the show opens"
   [query-date show-date]

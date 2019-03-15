@@ -3,6 +3,16 @@
             [tickets4sale.domain :refer :all]
             [java-time :as jt]))
 
+(defn twentysix-day-sales-pattern
+  "print out a sales pattern for given query, show and premiere dates"
+  [show-date premiere-date]
+  (vec
+   (map
+    #(let [query-date
+           (jt/plus (ticket-sales-start show-date) (jt/days %))]
+      (tickets-sold query-date show-date premiere-date))
+    (take 25 (range)))))
+
 (deftest domain-tests
 
   (deftest domain-constants-test
@@ -99,12 +109,7 @@
     (testing "tickets sold pattern for a performance in the larger venue"
              (let [sales-pattern (let [show-date     (jt/local-date "2017-06-06")
                                        premiere-date (jt/local-date "2017-05-06")]
-                                   (vec
-                                    (map
-                                     #(let [query-date
-                                            (jt/plus (ticket-sales-start show-date) (jt/days %))]
-                                       (tickets-sold query-date show-date premiere-date))
-                                     (take 25 (range)))))]
+                                   (twentysix-day-sales-pattern show-date premiere-date))]
                (is
                 (=
                  [10
@@ -136,12 +141,7 @@
     (testing "tickets sold pattern for a performance in the smaller venue"
              (let [sales-pattern (let [show-date     (jt/local-date "2006-01-01")
                                        premiere-date (jt/local-date "2005-10-17")]
-                                   (vec
-                                    (map
-                                     #(let [query-date
-                                            (jt/plus (ticket-sales-start show-date) (jt/days %))]
-                                       (tickets-sold query-date show-date premiere-date))
-                                     (take 25 (range)))))]
+                                   (twentysix-day-sales-pattern show-date premiere-date))]
                (is
                 (=
                  [5
@@ -179,4 +179,28 @@
              (let [query-date    (jt/local-date "1958-09-22")
                    show-date     (jt/local-date "1958-09-21")
                    premiere-date show-date]
-               (is (= 200 (tickets-sold query-date show-date premiere-date)))))))
+               (is (= 200 (tickets-sold query-date show-date premiere-date))))))
+
+  (deftest tickets-left-tests
+    (testing "calculates tickets left for a show date in the bigger venue"
+             (let [show-date     (jt/local-date "2017-06-06")
+                   premiere-date (jt/minus show-date (jt/days 10))
+                   query-date    (jt/minus show-date (jt/days 20))]
+               (is (= 140 (tickets-left query-date show-date premiere-date)))))
+    (testing "calculates tickets left for a show date in the smaller venue"
+             (let [show-date     (jt/local-date "1902-08-31")
+                   premiere-date (jt/minus show-date (jt/days 62))
+                   query-date    (jt/minus show-date (jt/days 18))]
+               (is (= 60 (tickets-left query-date show-date premiere-date)))))
+    (testing "calculates tickets left when sales haven't started yet"
+             (let [show-date     (jt/local-date "2024-04-01")
+                   premiere-date show-date
+                   query-date    (jt/minus show-date (jt/days 26))]
+               (is (= 200 (tickets-left query-date show-date premiere-date)))))
+    (testing "calculates tickets left when the query date is after the show date"
+             (let [show-date     (jt/local-date "1896-12-25")
+                   premiere-date show-date
+                   query-date    (jt/plus show-date (jt/days 2))]
+               (is (= 0 (tickets-left query-date show-date premiere-date)))))))
+
+
