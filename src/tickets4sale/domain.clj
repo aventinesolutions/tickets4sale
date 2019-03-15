@@ -38,6 +38,11 @@
   (not
     (jt/before? show-date (jt/plus premiere-date move-to-smaller-venue-after-days))))
 
+(defn in-the-past?
+  "true if querying for a show date in the past"
+  [query-date show-date]
+  (jt/after? query-date show-date))
+
 (defn capacity
   "return total capicity based on show and premiere dates"
   [show-date premiere-date]
@@ -60,7 +65,7 @@
   (let [capacity (capacity show-date premiere-date)]
     (cond
       (not (ticket-sales-started? query-date show-date))     0
-      (jt/after? query-date show-date)                       capacity
+      (in-the-past? query-date show-date)                    capacity
       :else
       (min capacity
            (*

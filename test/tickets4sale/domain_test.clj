@@ -46,7 +46,6 @@
                 (= 0
                    (number-of-days-between (jt/local-date "1956-07-05") show-date))))))
 
-
   (deftest ticket-sales-started-tests
     (let [show-date (jt/local-date "2019-01-15")]
       (deftest ticket-sales-start-test
@@ -73,6 +72,12 @@
                      (ticket-sales-started?
                       query-date (jt/local-date "2818-12-12")))))))))
 
+  (deftest in-the-past?-test
+    (let [show-date (jt/local-date "1776-07-04")]
+      (testing "querying a show date in the past"
+               (is (true? (in-the-past? (jt/local-date "1776-07-05") show-date))))
+      (testing "querying a show date in the future or present"
+               (is (false? (in-the-past? (jt/local-date "1776-07-03") show-date))))))
 
   (let [premiere-date (jt/local-date "2017-04-06")]
     (deftest in-smaller-venue?-test
