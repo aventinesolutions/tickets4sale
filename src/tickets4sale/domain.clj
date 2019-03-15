@@ -85,7 +85,9 @@
 
 (defn show-status
   "the status of the show based on query date and when the show opens"
-  [query-date show-date]
-  (if-not (ticket-sales-started? query-date show-date)
-    "sale not started"
-    "unknown"))
+  [query-date show-date premiere-date]
+  (cond (in-the-past? query-date show-date)            "in the past"
+    (not (ticket-sales-started? query-date show-date)) "sale not started"
+    (sold-out? query-date show-date premiere-date)     "sold out"
+    :else
+    "open for sale"))

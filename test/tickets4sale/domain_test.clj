@@ -102,14 +102,6 @@
       (testing "5 if show performs in the smaller venue"
                (is (= 5 (sold-per-day (jt/local-date "2017-06-06") premiere-date))))))
 
-  (let [show-date (jt/local-date "2019-02-02")]
-    (deftest show-status-tests
-      (testing "\"sale not started \" when query date is before sale start date for performance"
-               (is
-                (=
-                 "sale not started"
-                 (show-status (jt/local-date "2019-01-03") show-date))))))
-
   (deftest tickets-sold-test
     (testing "tickets sold pattern for a performance in the larger venue"
              (let [sales-pattern (let [show-date     (jt/local-date "2017-06-06")
@@ -218,6 +210,43 @@
              (let [show-date     (jt/local-date "1946-07-22")
                    premiere-date (jt/minus show-date (jt/days 2))
                    query-date    (jt/minus show-date (jt/days 22))]
-               (is (false? (sold-out? query-date show-date premiere-date)))))))
+               (is (false? (sold-out? query-date show-date premiere-date))))))
+
+  (deftest show-status-tests
+    (testing "\"in the past \" when query date is after the show date"
+             (let [show-date     (jt/local-date "1978-06-22")
+                   premiere-date (jt/minus show-date (jt/days 2))
+                   query-date    (jt/plus show-date (jt/days 2))]
+               (is
+                (=
+                 "in the past"
+                 (show-status query-date show-date premiere-date)))))
+    (testing "\"sale not started \" when query date is before sale start date for performance"
+             (let [show-date     (jt/local-date "1978-06-14")
+                   premiere-date (jt/minus show-date (jt/days 2))
+                   query-date    (jt/minus show-date (jt/days 28))]
+               (is
+                (=
+                 "sale not started"
+                 (show-status query-date show-date premiere-date)))))
+    (testing "\"sold out \" when all tickets are sold based on query date"
+             (let [show-date     (jt/local-date "1978-06-30")
+                   premiere-date (jt/minus show-date (jt/days 4))
+                   query-date    (jt/minus show-date (jt/days 5))]
+               (is
+                (=
+                 "sold out"
+                 (show-status query-date show-date premiere-date)))))
+    (testing "\"open for sale \" when otherwise tickets are available based on query date"
+             (let [show-date     (jt/local-date "1978-06-05")
+                   premiere-date (jt/minus show-date (jt/days 6))
+                   query-date    (jt/minus show-date (jt/days 16))]
+               (is
+                (=
+                 "open for sale"
+                 (show-status query-date show-date premiere-date)))))))
+
+
+
 
 
