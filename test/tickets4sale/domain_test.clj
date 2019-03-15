@@ -4,7 +4,7 @@
             [java-time :as jt]))
 
 (defn twentysix-day-sales-pattern
-  "print out a sales pattern for given query, show and premiere dates"
+  "provide a 26 day sales pattern for given query, show and premiere dates"
   [show-date premiere-date]
   (vec
    (map
