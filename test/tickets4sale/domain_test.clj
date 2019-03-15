@@ -186,7 +186,7 @@
                    premiere-date show-date]
                (is (= 200 (tickets-sold query-date show-date premiere-date))))))
 
-  (deftest tickets-left-tests
+  (deftest tickets-left-test
     (testing "calculates tickets left for a show date in the bigger venue"
              (let [show-date     (jt/local-date "2017-06-06")
                    premiere-date (jt/minus show-date (jt/days 10))
@@ -206,6 +206,18 @@
              (let [show-date     (jt/local-date "1896-12-25")
                    premiere-date show-date
                    query-date    (jt/plus show-date (jt/days 2))]
-               (is (= 0 (tickets-left query-date show-date premiere-date)))))))
+               (is (= 0 (tickets-left query-date show-date premiere-date))))))
+
+  (deftest sold-out?-test
+    (testing "all tickets are sold"
+             (let [show-date     (jt/local-date "1942-11-02")
+                   premiere-date (jt/minus show-date (jt/days 2))
+                   query-date    (jt/minus show-date (jt/days 5))]
+               (is (true? (sold-out? query-date show-date premiere-date)))))
+    (testing "not all tickets are sold"
+             (let [show-date     (jt/local-date "1946-07-22")
+                   premiere-date (jt/minus show-date (jt/days 2))
+                   query-date    (jt/minus show-date (jt/days 22))]
+               (is (false? (sold-out? query-date show-date premiere-date)))))))
 
 

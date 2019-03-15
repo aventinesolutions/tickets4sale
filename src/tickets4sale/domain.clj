@@ -77,6 +77,12 @@
   [query-date show-date premiere-date]
   (- (capacity show-date premiere-date) (tickets-sold query-date show-date premiere-date)))
 
+(defn sold-out?
+  "true if all tickets are sold"
+  [query-date show-date premiere-date]
+  (= (capacity show-date premiere-date)
+     (tickets-sold query-date show-date premiere-date)))
+
 (defn show-status
   "the status of the show based on query date and when the show opens"
   [query-date show-date]
