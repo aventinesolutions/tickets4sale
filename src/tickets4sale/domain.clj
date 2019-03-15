@@ -36,7 +36,7 @@
   "is the show performance in the smaller venue? (based on show premiere dates)"
   [show-date premiere-date]
   (not
-    (jt/before? show-date (jt/plus premiere-date move-to-smaller-venue-after-days))))
+   (jt/before? show-date (jt/plus premiere-date move-to-smaller-venue-after-days))))
 
 (defn in-the-past?
   "true if querying for a show date in the past"
@@ -59,6 +59,12 @@
     tickets-sold-per-day-smaller-venue
     tickets-sold-per-day-bigger-venue))
 
+(defn tickets-available
+  "return available tickets to be sold based show and premiere dates"
+  [query-date show-date premiere-date]
+  (if-not (ticket-sales-started? query-date show-date) 0
+    (sold-per-day show-date premiere-date)))
+
 (defn tickets-sold
   "returns the tickets sold based on the query, show and premiere dates"
   [query-date show-date premiere-date]
@@ -67,15 +73,18 @@
       (not (ticket-sales-started? query-date show-date))     0
       (in-the-past? query-date show-date)                    capacity
       :else
-      (min capacity
-           (*
-            (inc (- (number-of-days-between query-date (jt/minus show-date sales-start-days-before-show))))
-            (sold-per-day show-date premiere-date))))))
+      (->
+       (number-of-days-between query-date (jt/minus show-date sales-start-days-before-show))
+       (-)
+       (dec)
+       (* (sold-per-day show-date premiere-date))
+       (min capacity)))))
 
 (defn tickets-left
   "returns the tickets left based on the query, show and premiere dates"
   [query-date show-date premiere-date]
-  (- (capacity show-date premiere-date) (tickets-sold query-date show-date premiere-date)))
+  (- (capacity show-date premiere-date)
+     (tickets-sold query-date show-date premiere-date)))
 
 (defn sold-out?
   "true if all tickets are sold"
