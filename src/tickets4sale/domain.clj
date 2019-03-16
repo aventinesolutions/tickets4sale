@@ -77,6 +77,7 @@
        (number-of-days-between query-date (jt/minus show-date sales-start-days-before-show))
        (-)
        (dec)
+       (max 0)
        (* (sold-per-day show-date premiere-date))
        (min capacity)))))
 

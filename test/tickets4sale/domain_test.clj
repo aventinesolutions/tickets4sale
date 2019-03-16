@@ -13,17 +13,6 @@
       (tickets-sold query-date show-date premiere-date))
     (take 25 (range)))))
 
-(defn twentysix-day-sales-pattern-debug
-  "provide a 26 day sales pattern for given query, show and premiere dates"
-  [show-date premiere-date]
-  (vec
-   (map
-    #(let [query-date
-           (jt/plus (ticket-sales-start show-date) (jt/days %))]
-      [% (str query-date) (tickets-sold query-date show-date premiere-date)])
-    (take 25 (range)))))
-
-
 (deftest domain-tests
 
   (deftest domain-constants-test
@@ -120,7 +109,9 @@
                                    (twentysix-day-sales-pattern show-date premiere-date))]
                (is
                 (=
-                 [10
+                 [0
+                  0
+                  10
                   20
                   30
                   40
@@ -142,8 +133,6 @@
                   200
                   200
                   200
-                  200
-                  200
                   200]
                  sales-pattern))))
     (testing "tickets sold pattern for a performance in the smaller venue"
@@ -152,7 +141,9 @@
                                    (twentysix-day-sales-pattern show-date premiere-date))]
                (is
                 (=
-                 [5
+                 [0
+                  0
+                  5
                   10
                   15
                   20
@@ -174,85 +165,7 @@
                   100
                   100
                   100
-                  100
-                  100
                   100]
-                 sales-pattern))))
-    (testing "zero tickets are sold when sales have not started yet"
-             (let [query-date    (jt/local-date "1998-02-01")
-                   show-date     (jt/local-date "1998-06-15")
-                   premiere-date show-date]
-               (is (= 0 (tickets-sold query-date show-date premiere-date)))))
-    (testing "assumes capacity tickets sold when query date is after the show date"
-             (let [query-date    (jt/local-date "1958-09-22")
-                   show-date     (jt/local-date "1958-09-21")
-                   premiere-date show-date]
-               (is (= 200 (tickets-sold query-date show-date premiere-date))))))
-
-  (deftest tickets-sold-debug-test
-    (testing "tickets sold pattern for a performance in the larger venue *** debug ***"
-             (let [sales-pattern (let [show-date     (jt/local-date "2017-06-06")
-                                       premiere-date (jt/local-date "2017-05-06")]
-                                   (twentysix-day-sales-pattern-debug show-date premiere-date))]
-               (is
-                (=
-                 [[0 "2017-05-12" 10]
-                  [1 "2017-05-13" 20]
-                  [2 "2017-05-14" 30]
-                  [3 "2017-05-15" 40]
-                  [4 "2017-05-16" 50]
-                  [5 "2017-05-17" 60]
-                  [6 "2017-05-18" 70]
-                  [7 "2017-05-19" 80]
-                  [8 "2017-05-20" 90]
-                  [9 "2017-05-21" 100]
-                  [10 "2017-05-22" 110]
-                  [11 "2017-05-23" 120]
-                  [12 "2017-05-24" 130]
-                  [13 "2017-05-25" 140]
-                  [14 "2017-05-26" 150]
-                  [15 "2017-05-27" 160]
-                  [16 "2017-05-28" 170]
-                  [17 "2017-05-29" 180]
-                  [18 "2017-05-30" 190]
-                  [19 "2017-05-31" 200]
-                  [20 "2017-06-01" 200]
-                  [21 "2017-06-02" 200]
-                  [22 "2017-06-03" 200]
-                  [23 "2017-06-04" 200]
-                  [24 "2017-06-05" 200]]
-                 sales-pattern))))
-    (testing "tickets sold pattern for a performance in the smaller venue *** debug ***"
-             (let [sales-pattern (let [show-date     (jt/local-date "2006-01-01")
-                                       premiere-date (jt/local-date "2005-10-17")]
-                                   (twentysix-day-sales-pattern-debug show-date premiere-date))]
-               (is
-                (=
-                 [[0 "2005-12-07" 5]
-                  [1 "2005-12-08" 10]
-                  [2 "2005-12-09" 15]
-                  [3 "2005-12-10" 20]
-                  [4 "2005-12-11" 25]
-                  [5 "2005-12-12" 30]
-                  [6 "2005-12-13" 35]
-                  [7 "2005-12-14" 40]
-                  [8 "2005-12-15" 45]
-                  [9 "2005-12-16" 50]
-                  [10 "2005-12-17" 55]
-                  [11 "2005-12-18" 60]
-                  [12 "2005-12-19" 65]
-                  [13 "2005-12-20" 70]
-                  [14 "2005-12-21" 75]
-                  [15 "2005-12-22" 80]
-                  [16 "2005-12-23" 85]
-                  [17 "2005-12-24" 90]
-                  [18 "2005-12-25" 95]
-                  [19 "2005-12-26" 100]
-                  [20 "2005-12-27" 100]
-                  [21 "2005-12-28" 100]
-                  [22 "2005-12-29" 100]
-                  [23 "2005-12-30" 100]
-                  [24 "2005-12-31" 100]]
                  sales-pattern))))
     (testing "zero tickets are sold when sales have not started yet"
              (let [query-date    (jt/local-date "1998-02-01")
@@ -270,12 +183,12 @@
              (let [show-date     (jt/local-date "2017-06-06")
                    premiere-date (jt/minus show-date (jt/days 10))
                    query-date    (jt/minus show-date (jt/days 20))]
-               (is (= 140 (tickets-left query-date show-date premiere-date)))))
+               (is (= 160 (tickets-left query-date show-date premiere-date)))))
     (testing "calculates tickets left for a show date in the smaller venue"
              (let [show-date     (jt/local-date "1902-08-31")
                    premiere-date (jt/minus show-date (jt/days 62))
                    query-date    (jt/minus show-date (jt/days 18))]
-               (is (= 60 (tickets-left query-date show-date premiere-date)))))
+               (is (= 70 (tickets-left query-date show-date premiere-date)))))
     (testing "calculates tickets left when sales haven't started yet"
              (let [show-date     (jt/local-date "2024-04-01")
                    premiere-date show-date
@@ -291,7 +204,7 @@
     (testing "all tickets are sold"
              (let [show-date     (jt/local-date "1942-11-02")
                    premiere-date (jt/minus show-date (jt/days 2))
-                   query-date    (jt/minus show-date (jt/days 5))]
+                   query-date    (jt/minus show-date (jt/days 4))]
                (is (true? (sold-out? query-date show-date premiere-date)))))
     (testing "not all tickets are sold"
              (let [show-date     (jt/local-date "1946-07-22")
@@ -319,7 +232,7 @@
     (testing "\"sold out \" when all tickets are sold based on query date"
              (let [show-date     (jt/local-date "1978-06-30")
                    premiere-date (jt/minus show-date (jt/days 4))
-                   query-date    (jt/minus show-date (jt/days 5))]
+                   query-date    (jt/minus show-date (jt/days 4))]
                (is
                 (=
                  "sold out"
