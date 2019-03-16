@@ -52,3 +52,44 @@
               (map
                #(ticket-status-for-show (jt/local-date "2018-08-01") (jt/local-date "2018-08-15") %)
                shows))))))
+
+(deftest ticket-status-for-shows-test
+  (testing "querying shows before sales have started"
+           (is
+            (=
+             [{:title             "Cats"
+               :genre             "musical"
+               :tickets-left      200
+               :tickets-available 0
+               :status            "sale not started"}
+              {:title             "Comedy of Errors"
+               :genre             "comedy"
+               :tickets-left      200
+               :tickets-available 0
+               :status            "sale not started"}
+              {:title             "Everyman"
+               :genre             "drama"
+               :tickets-left      200
+               :tickets-available 0
+               :status            "sale not started"}]
+             (ticket-status-for-shows (jt/local-date "2018-01-01") (jt/local-date "2018-07-01") shows))))
+  (testing "querying a show after sales have started"
+           (is
+            (=
+             [{:title             "Cats"
+               :genre             "musical"
+               :tickets-left      50
+               :tickets-available 5
+               :status            "open for sale"}
+              {:title             "Comedy of Errors"
+               :genre             "comedy"
+               :tickets-left      100
+               :tickets-available 10
+               :status            "open for sale"}
+              {:title             "Everyman"
+               :genre             "drama"
+               :tickets-left      100
+               :tickets-available 10
+               :status            "open for sale"}]
+             (ticket-status-for-shows (jt/local-date "2018-08-01") (jt/local-date "2018-08-15") shows)))))
+

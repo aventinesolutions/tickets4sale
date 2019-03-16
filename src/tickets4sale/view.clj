@@ -15,3 +15,8 @@
      :tickets-left      tickets-left
      :tickets-available tickets-available
      :status            status}))
+
+(defn ticket-status-for-shows
+  "return the ticket status summary for a list of shows given a query date and a chosen show date"
+  [query-date show-date shows]
+  (vec (map #(ticket-status-for-show query-date show-date %) shows)))
