@@ -102,6 +102,23 @@
       (testing "5 if show performs in the smaller venue"
                (is (= 5 (sold-per-day (jt/local-date "2017-06-06") premiere-date))))))
 
+  (deftest tickets-available-test
+    (testing "none when sales have not started yet"
+             (let [show-date     (jt/local-date "2062-05-30")
+                   premiere-date show-date
+                   query-date    (jt/minus show-date (jt/days 26))]
+               (is (= 0 (tickets-available query-date show-date premiere-date)))))
+    (testing "when in the bigger venue"
+             (let [show-date     (jt/local-date "1993-06-06")
+                   premiere-date (jt/minus show-date (jt/days 10))
+                   query-date    (jt/minus show-date (jt/days 20))]
+               (is (= 10 (tickets-available query-date show-date premiere-date)))))
+    (testing "when in the smaller venue"
+             (let [show-date     (jt/local-date "1962-02-02")
+                   premiere-date (jt/minus show-date (jt/days 62))
+                   query-date    (jt/minus show-date (jt/days 18))]
+               (is (= 5 (tickets-available query-date show-date premiere-date))))))
+
   (deftest tickets-sold-test
     (testing "tickets sold pattern for a performance in the larger venue"
              (let [sales-pattern (let [show-date     (jt/local-date "2017-06-06")
