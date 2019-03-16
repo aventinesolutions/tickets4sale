@@ -7,6 +7,9 @@
             ["Comedy of Errors" (jt/local-date "2018-07-01") "comedy"]
             ["Everyman" (jt/local-date "2018-08-01") "drama"]])
 
+(def show-list
+  (ticket-status-for-shows (jt/local-date "2018-08-01") (jt/local-date "2018-08-15") shows))
+
 (deftest ticket-status-for-show-test
   (testing "querying a show before sales have started"
            (is
@@ -101,3 +104,37 @@
              (->
               (ticket-status-for-shows (jt/local-date "2018-08-01") (jt/local-date "2018-08-15") shows)
               (available-genres))))))
+
+(deftest group-by-genre-test
+  (testing "provides ticket status report grouped by genres for given query and show dates"
+           (is
+            (=
+             [{:genre "comedy",
+               :shows [{:title             "Comedy of Errors",
+                        :tickets-left      100,
+                        :tickets-available 10,
+                        :status            "open for sale"}]}
+              {:genre "drama",
+               :shows [{:title             "Everyman",
+                        :tickets-left      100,
+                        :tickets-available 10,
+                        :status            "open for sale"}]}
+              {:genre "musical",
+               :shows [{:title             "Cats",
+                        :tickets-left      50,
+                        :tickets-available 5,
+                        :status            "open for sale"}]}]
+             (vec (group-by-genre show-list))))))
+
+(deftest ticket-status-report-test
+  (testing "provides a JSON string of the ticket status of shows based on the query date and the given show date")
+  (is
+   (=
+     (str "{\"inventory\":"
+          "[{\"genre\":\"comedy\",\"shows\":"
+          "[{\"title\":\"Comedy of Errors\",\"tickets-left\":100,\"tickets-available\":10,\"status\":\"open for sale\"}]},"
+          "{\"genre\":\"drama\",\"shows\":"
+          "[{\"title\":\"Everyman\",\"tickets-left\":100,\"tickets-available\":10,\"status\":\"open for sale\"}]},"
+          "{\"genre\":\"musical\",\"shows\":"
+          "[{\"title\":\"Cats\",\"tickets-left\":50,\"tickets-available\":5,\"status\":\"open for sale\"}]}]}")
+     (ticket-status-report (jt/local-date "2018-08-01") (jt/local-date "2018-08-15") shows))))

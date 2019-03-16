@@ -26,6 +26,29 @@
   [show-list]
   (vec (sort (map #(keyword %) (distinct (map #(:genre %) show-list))))))
 
+(defn genre-keyword-as-str
+  "converts genre keyword to str"
+  [key]
+  (subs (str key) 1))
+
+(defn filter-by-genre
+  "show list only for a given genre"
+  [genre show-list]
+  (vec
+   (map #(dissoc % :genre)
+        (filter #(= (genre-keyword-as-str genre) (:genre %)) show-list))))
+
+(defn group-by-genre
+  "show list as hash map grouped by genre"
+  [show-list]
+  (let [genres (available-genres show-list)]
+    (map
+     #(let [key %]
+       (hash-map :genre (genre-keyword-as-str key) :shows (vec (filter-by-genre key show-list))))
+     genres)))
+
 (defn ticket-status-report
   "return a JSON report of the ticket status for shows by genre based on query date and a chosen show date"
-  [query-date show-date shows])
+  [query-date show-date shows]
+  (let [show-list (ticket-status-for-shows query-date show-date shows)]
+    (json/write-str {:inventory (vec (group-by-genre show-list))})))
