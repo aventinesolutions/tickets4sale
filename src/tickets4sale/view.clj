@@ -20,3 +20,12 @@
   "return the ticket status summary for a list of shows given a query date and a chosen show date"
   [query-date show-date shows]
   (vec (map #(ticket-status-for-show query-date show-date %) shows)))
+
+(defn available-genres
+  "available genres, sorted as keywords"
+  [show-list]
+  (vec (sort (map #(keyword %) (distinct (map #(:genre %) show-list))))))
+
+(defn ticket-status-report
+  "return a JSON report of the ticket status for shows by genre based on query date and a chosen show date"
+  [query-date show-date shows])

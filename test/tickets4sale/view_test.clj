@@ -93,3 +93,11 @@
                :status            "open for sale"}]
              (ticket-status-for-shows (jt/local-date "2018-08-01") (jt/local-date "2018-08-15") shows)))))
 
+(deftest available-genres-test
+  (testing "provides sorted list of genres"
+           (is
+            (=
+             [:comedy :drama :musical]
+             (->
+              (ticket-status-for-shows (jt/local-date "2018-08-01") (jt/local-date "2018-08-15") shows)
+              (available-genres))))))
