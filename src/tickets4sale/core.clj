@@ -49,5 +49,6 @@
       ; run HTTP server via system component
       (do
         (store/initialize-from-csv (:data run-opts))
+        (swap! store/store assoc :query-date (:query-date run-opts) :show-date (:show-date run-opts))
         (init-system)
         (start!)))))

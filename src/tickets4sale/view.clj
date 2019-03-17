@@ -58,7 +58,7 @@
   "render a simple welcome page by default"
   []
   (html5
-    [:head
-     [:meta {:charset "UTF-8"}]]
-    [:body
-     [:h1 "Welcome to Tickets4Sale"]]))
+   [:head
+    [:meta {:charset "UTF-8"}]]
+   [:body
+    [:h1 "Welcome to Tickets4Sale"]]))
