@@ -1,5 +1,6 @@
 (ns tickets4sale.view
-  (:require [tickets4sale.store :as store]
+  (:require [hiccup.page :refer [html5]]
+            [tickets4sale.store :as store]
             [tickets4sale.domain :as domain]
             [clojure.data.json :as json]))
 
@@ -52,3 +53,12 @@
   [query-date show-date shows]
   (let [show-list (ticket-status-for-shows query-date show-date shows)]
     (json/write-str {:inventory (vec (group-by-genre show-list))})))
+
+(defn render-default
+  "render a simple welcome page by default"
+  []
+  (html5
+    [:head
+     [:meta {:charset "UTF-8"}]]
+    [:body
+     [:h1 "Welcome to Tickets4Sale"]]))
