@@ -100,7 +100,17 @@ Either way, the output will always be a show report as a JSON string:
 ```
 
 ### Server Mode
-Coming soon.
+
+Run the server:
+```shell
+lein run --run server --query-date 2018-08-01 --show-date 2018-08-15 --data ./test/fixtures/shows.csv
+```
+
+The ticket status report can be accessed via the URL pattern:
+```
+http://localhost:8080/ticket-status/2018-08-02
+```
+... there the stub is the show date based on the pattern "YYYY-MM-DD"
 
 ## Frontend
 Coming soon.
