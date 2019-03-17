@@ -1,4 +1,4 @@
-(defproject tickets4sale "0.1.0-SNAPSHOT"
+(defproject tickets4sale "0.0.1-US1"
   :description "Coding Challenge for Vakantie Discounter and Otravo (Spilberg)"
   :url "https://gitlab.com/aventinesolutions/tickets4sale"
   :license
