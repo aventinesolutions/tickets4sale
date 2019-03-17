@@ -36,8 +36,7 @@ If you choose to build the Überjar,
 
 Then it can be run as a stand-alone Java spp:
 ```shell
-% java -jar ./target/uberjar/tickets4sale-0.0.1-US1-standalone.jar --run cli --query-date 2018-08-01 --show-dat
-e 2018-08-15 --data ./test/fixtures/some.csv
+% java -jar ./target/uberjar/tickets4sale-0.0.1-US1-standalone.jar --run cli --query-date 2018-08-01 --show-date 2018-08-15 --data ./test/fixtures/some.csv
 ```
 
 Either way, the output will always be a show report as a JSON string:
