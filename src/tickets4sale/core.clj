@@ -2,6 +2,7 @@
   (:gen-class)
   (:require [tickets4sale.store :as store]
             [tickets4sale.view :as view]
+            [tickets4sale.system :refer [init-system start!]]
             [clojure.string :as string]
             [java-time :as jt]
             [clojure.tools.cli :as cli]
@@ -45,4 +46,8 @@
                                                            shows      (:shows (store/initialize-from-csv (:data run-opts)))]
                                                        (view/ticket-status-report query-date show-date shows)))
       :else
-      (println options "Server run mode not ready. Please be patient."))))
+      ; run HTTP server via system component
+      (do
+        (store/initialize-from-csv (:data run-opts))
+        (init-system)
+        (start!)))))
