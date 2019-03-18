@@ -113,7 +113,29 @@ http://localhost:8080/ticket-status/2018-08-02
 ... there the stub is the show date based on the pattern "YYYY-MM-DD"
 
 ## Frontend
-Coming soon.
+
+In one terminal, run have the backend running with the desired parameters (instructions
+above).
+
+In another terminal for the frontend server, run "figwheel"
+```shell
+% lein figwheel
+```
+
+The frontend will be available on port 3449:
+```shell
+http://localhost:3449
+```
+
+![screenshot](/aventinesolutions/tickets4sale/raw/develop/doc/screenshot-VakantieDiscounter-US2frontend(0).png?inline=false)
+
+## Needs Improvement
+1. In the backend does not have a default for "404 not found"
+2. In the frontend the ticket status URI hardcoded for "localhost". This should
+   be configurable by environment.
+3. Reagent still warns about "missing keys" for some reason (they are provided).
+4. It would be nice to change the query date from the frontend as well.
+
 
 ## License
 
