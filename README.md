@@ -117,8 +117,10 @@ http://localhost:8080/ticket-status/2018-08-02
 In one terminal, run have the backend running with the desired parameters (instructions
 above).
 
-In another terminal for the frontend server, run "figwheel"
+In another terminal for the frontend server, run "figwheel" from the `frontend`
+directory:
 ```shell
+% cd frontend
 % lein figwheel
 ```
 
@@ -135,6 +137,7 @@ http://localhost:3449
    be configurable by environment.
 3. Reagent still warns about "missing keys" for some reason (they are provided).
 4. It would be nice to change the query date from the frontend as well.
+5. More tests: command line options, server, routes, frontend components, end-to-end tests, etc.
 
 
 ## License
