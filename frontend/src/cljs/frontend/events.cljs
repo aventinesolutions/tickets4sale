@@ -12,3 +12,4 @@
  ::report
  (fn [_ [_ show-date]]
    (db/fetch-inventory show-date)))
+

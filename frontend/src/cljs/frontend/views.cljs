@@ -5,7 +5,8 @@
     [reagent.core :as reagent]
     [re-frame.core :as re-frame]
     [frontend.subs :as subs]
-    [frontend.events :as events]))
+    [frontend.events :as events]
+    [frontend.db :as db]))
 
 (def date-format (formatters/formatters :date))
 
@@ -52,11 +53,45 @@
                        (re-frame/dispatch [::events/report (:value @state)])))}]
        [:div (pr-str @state)]])))
 
+(defn show-status
+  "provides the ticket sales status of a show"
+  [show]
+  [:div.show
+   {:key (:title show)}
+   [:h3.title (:title show)]
+   [:div.tickets-left
+    [:label "Tickets left"]
+    [:span (:tickets-left show)]]
+   [:div.tickets-available
+    [:label "Tickets available"]
+    [:span (:tickets-available show)]]
+   [:div.status
+    [:label "Status"]
+    [:span (:status show)]]])
+
+(defn genre-group
+  "provides a group of show ticket status by genre"
+  [group]
+  (let [genre (:genre group)]
+    [:div.genre-group
+     [:h2.genre {:key genre} genre]
+     (map #(let [show %] (show-status show)) (:shows group))]))
+
+(defn inventory-report
+  "provides the inventory of tickets with their statuses"
+  []
+  (let [state db/db]
+    (fn []
+      [:div.inventory
+       [:div.genre-list
+        (map #(let [group %] (genre-group group)) (:inventory @state))]])))
+
 (defn main-panel
   "main panel for the ticket status query application"
   []
   (let [name (re-frame/subscribe [::subs/name])]
     [:div
      [:h1 "Welcome to " @name]
-     [:div [date-input]]]))
+     [:div.input [date-input]]
+     [:div.report [inventory-report]]]))
 
