@@ -11,4 +11,4 @@
 (re-frame/reg-event-db
  ::report
  (fn [_ [_ show-date]]
-   (js/console.log show-date)))
+   (db/fetch-inventory show-date)))
