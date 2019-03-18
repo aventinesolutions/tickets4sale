@@ -18,5 +18,4 @@
    (let [response (<!
                     (http/get (str "http://localhost:8080/ticket-status/" show-date)
                               {:with-credentials? false}))]
-     (js/console.log (prn-str (:inventory (:body response))))
      (swap! db assoc :inventory (:inventory (:body response))))))

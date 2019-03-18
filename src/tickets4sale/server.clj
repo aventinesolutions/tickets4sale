@@ -29,11 +29,10 @@
   (let [query-date (:query-date @store)
         show-date  (:show-date @store)
         shows      (:shows @store)]
-    (let [response (-> (response/response (view/ticket-status-report query-date show-date shows))
-                       (response/header "Access-Control-Allow-Origin" "*")
-                       (response/content-type "application/json")
-                       (response/status 200))]
-      (println response) response)))
+    (-> (response/response (view/ticket-status-report query-date show-date shows))
+        (response/header "Access-Control-Allow-Origin" "*")
+        (response/content-type "application/json")
+        (response/status 200))))
 
 (defn handler
   "Get the handler function for our routes."
