@@ -58,7 +58,6 @@
   (let [title  (:title show)
         status (:status show)]
     [:div.show
-     ^{:key title}
      [:h3.title title]
      [:div.tickets-left
       [:label "Tickets left"]
@@ -75,8 +74,10 @@
   [group]
   (let [genre (:genre group)]
     [:div.genre-group
-     [:h2.genre ^{:key genre} genre]
-     (map #(show-status %) (:shows group))]))
+     [:h2.genre genre]
+     (for [show (:shows group)]
+       ^{:key (str genre "-" (:title show))}
+       (show-status show))]))
 
 (defn inventory-report
   "provides the inventory of tickets with their statuses"
@@ -85,7 +86,8 @@
     (fn []
       [:div.inventory
        [:div.genre-list
-        (map #(genre-group %) (:inventory @state))]])))
+        (for [group (:inventory @state)]
+          ^{:key (:genre group)} (genre-group group))]])))
 
 (defn main-panel
   "main panel for the ticket status query application"
