@@ -138,6 +138,10 @@ http://localhost:3449
 3. Reagent still warns about "missing keys" for some reason (they are provided).
 4. It would be nice to change the query date from the frontend as well.
 5. More tests: command line options, server, routes, frontend components, end-to-end tests, etc.
+6. There is a bug where the frontend will accept a show date format which the backend can't parse
+   (the difference between CLJ and CLJS local date parsing). Compare "2024-9-1" (works only in frontend)
+   and "2024-09-01" (works both in frontend and backend).
+7. The ticket status query should return an error response in JSON correctly.
 
 
 ## License
