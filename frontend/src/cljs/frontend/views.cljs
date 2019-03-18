@@ -54,7 +54,7 @@
        [:div (pr-str @state)]])))
 
 (defn show-status
-  "provides the ticket sales status of a show"
+  "provides the ticket sales status of a individual show"
   [show]
   [:div.show
    {:key (:title show)}
@@ -70,7 +70,7 @@
     [:span (:status show)]]])
 
 (defn genre-group
-  "provides a group of show ticket status by genre"
+  "provides a group listing of show ticket status by genre"
   [group]
   (let [genre (:genre group)]
     [:div.genre-group
