@@ -4,7 +4,8 @@
     [cljs-time.format :as formatters]
     [reagent.core :as reagent]
     [re-frame.core :as re-frame]
-    [frontend.subs :as subs]))
+    [frontend.subs :as subs]
+    [frontend.events :as events]))
 
 (def date-format (formatters/formatters :date))
 
@@ -22,7 +23,8 @@
       [:form
        {:id :show-date-input-form}
        [:div {:id :error} (:error @state)]
-       [:label "Show Date"
+       [:label
+        "Show Date"
         [:input
          {:id        :show-date-input
           :type      :text
@@ -44,8 +46,10 @@
          :value    "Query ticket status"
          :disabled (not (nil? (:error @state)))
          :on-click (fn [event]
-                     (.preventDefault event)
-                     (swap! state assoc :submitted true))}]
+                     (let [value (-> event .-target .-value)]
+                       (.preventDefault event)
+                       (swap! state assoc :submitted true)
+                       (re-frame/dispatch [::events/report (:value @state)])))}]
        [:div (pr-str @state)]])))
 
 (defn main-panel

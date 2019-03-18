@@ -6,7 +6,6 @@
     [frontend.views :as views]
     [frontend.config :as config]))
 
-
 (defn dev-setup []
   (when config/debug?
         (enable-console-print!)
