@@ -55,9 +55,11 @@
 (defn show-status
   "provides the ticket sales status of a individual show"
   [show]
-  (let [status (:status show)]
+  (let [title  (:title show)
+        status (:status show)]
     [:div.show
-     [:h3.title {:key :title} (:title show)]
+     ^{:key title}
+     [:h3.title title]
      [:div.tickets-left
       [:label "Tickets left"]
       [:span (:tickets-left show)]]
@@ -73,7 +75,7 @@
   [group]
   (let [genre (:genre group)]
     [:div.genre-group
-     [:h2.genre {:key genre} genre]
+     [:h2.genre ^{:key genre} genre]
      (map #(show-status %) (:shows group))]))
 
 (defn inventory-report
