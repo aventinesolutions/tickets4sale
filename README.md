@@ -127,7 +127,7 @@ The frontend will be available on port 3449:
 http://localhost:3449
 ```
 
-![screenshot](/aventinesolutions/tickets4sale/raw/develop/doc/screenshot-VakantieDiscounter-US2frontend(0).png?inline=false)
+![screenshot](https://gitlab.com/aventinesolutions/tickets4sale/raw/master/doc/screenshot-VakantieDiscounter-US2frontend(0).png?inline=false)
 
 ## Needs Improvement
 1. In the backend does not have a default for "404 not found"
