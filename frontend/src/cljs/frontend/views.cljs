@@ -22,7 +22,7 @@
       [:form
        {:id :show-date-input-form}
        [:div {:id :error} (:error @state)]
-       [:label
+       [:label "Show Date"
         [:input
          {:id        :show-date-input
           :type      :text
@@ -37,13 +37,12 @@
                          (swap! state assoc
                                 :value     value
                                 :show-date show-date
-                                :error     error)))}]
-        "Please enter a show date"]
+                                :error     error)))}]]
        [:input
         {:id       :query-status-submit
          :type     :submit
          :value    "Query ticket status"
-         :disabled  (not (nil? (:error @state)))
+         :disabled (not (nil? (:error @state)))
          :on-click (fn [event]
                      (.preventDefault event)
                      (swap! state assoc :submitted true))}]
