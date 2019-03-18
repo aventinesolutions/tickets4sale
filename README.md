@@ -10,6 +10,14 @@ To check that everything compiles, do
 % lein check
 ```
 
+## Unit Tests
+
+Do ...
+```shell
+% lein test
+```
+(there are currently only unit tests for the backend)
+
 ## Backend
 The backend can be run in either CLI or server mode.
 
