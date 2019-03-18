@@ -150,6 +150,7 @@ http://localhost:3449
    (the difference between CLJ and CLJS local date parsing). Compare "2024-9-1" (works only in frontend)
    and "2024-09-01" (works both in frontend and backend).
 7. The ticket status query should return an error response in JSON correctly.
+8.  Need a better test result formatter (still searching).
 
 
 ## License
