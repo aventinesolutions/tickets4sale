@@ -1,5 +1,6 @@
 (ns frontend.views
   (:require
+    [clojure.string :as str]
     [cljs-time.core :as time]
     [cljs-time.format :as formatters]
     [reagent.core :as reagent]
@@ -49,25 +50,24 @@
          :on-click (fn [event]
                      (let [value (-> event .-target .-value)]
                        (.preventDefault event)
-                       (swap! state assoc :submitted true)
-                       (re-frame/dispatch [::events/report (:value @state)])))}]
-       [:div (pr-str @state)]])))
+                       (re-frame/dispatch [::events/report (:value @state)])))}]])))
 
 (defn show-status
   "provides the ticket sales status of a individual show"
   [show]
-  [:div.show
-   {:key (:title show)}
-   [:h3.title (:title show)]
-   [:div.tickets-left
-    [:label "Tickets left"]
-    [:span (:tickets-left show)]]
-   [:div.tickets-available
-    [:label "Tickets available"]
-    [:span (:tickets-available show)]]
-   [:div.status
-    [:label "Status"]
-    [:span (:status show)]]])
+  (let [status (:status show)]
+    [:div.show
+     {:key (:title show)}
+     [:h3.title (:title show)]
+     [:div.tickets-left
+      [:label "Tickets left"]
+      [:span (:tickets-left show)]]
+     [:div.tickets-available
+      [:label "Tickets available"]
+      [:span (:tickets-available show)]]
+     [:div.status
+      [:label "Status"]
+      [:span {:class (str/replace status #" " "-")} status]]]))
 
 (defn genre-group
   "provides a group listing of show ticket status by genre"
