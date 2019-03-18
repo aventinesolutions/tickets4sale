@@ -23,29 +23,28 @@
   (let [state (reagent/atom {:value "2018-08-01"})]
     (fn []
       [:form
-       {:id :show-date-input-form}
-       [:div {:id :error} (:error @state)]
+       (if-not (nil? (:error @state)) [:div.error (:error @state)])
        [:label
         "Show Date"
         [:input
-         {:id        :show-date-input
-          :type      :text
-          :value     (:value @state)
-          :width     10
-          :on-change (fn [event]
-                       (.preventDefault event)
-                       (let [value     (-> event .-target .-value)
-                             show-date (parse-date value)
-                             error     (if (nil? show-date)
-                                         "Please enter a valid date using format YYYY-DD-MM")]
-                         (swap! state assoc
-                                :value     value
-                                :show-date show-date
-                                :error     error)))}]]
-       [:input
-        {:id       :query-status-submit
-         :type     :submit
-         :value    "Query ticket status"
+         {:id         :show-date-input
+          :auto-focus true
+          :type       :text
+          :value      (:value @state)
+          :width      10
+          :on-change  (fn [event]
+                        (.preventDefault event)
+                        (let [value     (-> event .-target .-value)
+                              show-date (parse-date value)
+                              error     (if (nil? show-date)
+                                          "Please enter a valid date using format YYYY-DD-MM")]
+                          (swap! state assoc
+                                 :value     value
+                                 :show-date show-date
+                                 :error     error)))}]]
+       [:input.query-status-submit
+        {:type     :submit
+         :value    "Query ticket inventory"
          :disabled (not (nil? (:error @state)))
          :on-click (fn [event]
                      (let [value (-> event .-target .-value)]

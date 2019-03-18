@@ -1,0 +1,115 @@
+html {
+    font-family: 'Fira Sans', sans-serif;
+}
+
+body {
+    background-color: lightgrey;
+}
+
+form {
+    padding: 0.5em;
+    border: 0.25em solid cornflowerblue;
+    border-radius: 0.5em;
+    min-width: 15em;
+    max-width: 35em;
+}
+
+form label {
+    margin: 1em;
+    padding-left: 0.25em;
+}
+
+input {
+    margin: 1em;
+}
+
+.error {
+    text-align: center;
+    font-weight: bolder;
+    color: maroon;
+    background-color: lightcyan;
+    padding: 0.5em;
+    border: 0.02em solid white;
+    max-width: 30em;
+}
+
+.query-status-submit {
+    background-color: cornflowerblue;
+    color: black;
+    padding: 0.5em;
+    font-weight: bold;
+}
+
+#app {
+    max-width: 120em;
+    padding: 0 10em;
+}
+
+@media only screen and (max-device-width: 480px) {
+    #app {
+        max-width: 120em;
+        padding: 0 1em;
+    }
+}
+
+@media only screen and (max-device-width: 360px) {
+    #app {
+        min-width: 15em;
+        padding: 0 0.5em;
+    }
+}
+
+.genre-group {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.show {
+    background-color: white;
+    margin: 1em;
+    padding: 1em;
+}
+
+h2 {
+    min-width: 6em;
+}
+
+h3 {
+    margin: 0;
+    border-bottom: 1px solid black;
+    max-width: 15em;
+}
+
+.show .title, .tickets-left, .tickets-available, .status {
+    padding: 0.25em;
+}
+
+.show {
+    min-width: 20em;
+}
+
+.show label {
+    margin-right: 0.5em;
+}
+
+.show .status span {
+    padding: 0.25em 0.5em;
+    border-radius: 1em;
+    border: 1px solid black;
+}
+
+.show .status span.open-for-sale {
+    background-color: lightgreen;
+}
+
+.show .status span.sold-out {
+    background-color: lightcoral;
+}
+
+.show .status span.in-the-past {
+    background-color: lightgrey;
+}
+
+.show .status span.sale-not-started {
+    background-color: lightpink;
+}
