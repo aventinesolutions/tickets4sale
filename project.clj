@@ -18,4 +18,4 @@
   :main ^:skip-aot tickets4sale.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}}
-  :global-vars {*warn-on-reflection* true})
+  :global-vars {*warn-on-reflection* false})
