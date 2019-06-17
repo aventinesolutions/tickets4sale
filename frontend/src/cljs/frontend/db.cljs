@@ -9,7 +9,7 @@
 (defn initialize-db
   "initializes the Tickets4Sale store"
   []
-  (swap! db assoc :name "Tickets4Sale"))
+  (swap! db assoc :name "Tickets4Sale" :inventory []))
 
 (defn fetch-inventory
   "fetch the ticket status inventory report from the backend"

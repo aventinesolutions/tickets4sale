@@ -9,6 +9,6 @@
    (:name @db/db)))
 
 (re-frame/reg-sub
- ::report
- (fn [db query]
-   (js/console.log query)))
+ ::inventory
+ (fn [db _]
+   (:inventory @db/db)))

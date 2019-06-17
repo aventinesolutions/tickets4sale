@@ -81,11 +81,11 @@
 (defn inventory-report
   "provides the inventory of tickets with their statuses"
   []
-  (let [state db/db]
+  (let [inventory (re-frame/subscribe ::subs/inventory)]
     (fn []
       [:div.inventory
        [:div.genre-list
-        (for [group (:inventory @state)]
+        (for [group inventory]
           ^{:key (:genre group)} (genre-group group))]])))
 
 (defn main-panel
