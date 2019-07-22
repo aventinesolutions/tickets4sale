@@ -9,6 +9,8 @@
     [frontend.events :as events]
     [frontend.db :as db]))
 
+(defn log [& args] (apply (.-log js/console) args))
+
 (def date-format (formatters/formatters :date))
 
 (defn parse-date
@@ -81,7 +83,7 @@
 (defn inventory-report
   "provides the inventory of tickets with their statuses"
   []
-  (let [inventory (re-frame/subscribe ::subs/inventory)]
+  (let [inventory @(re-frame/subscribe [::subs/inventory])]
     (fn []
       [:div.inventory
        [:div.genre-list
@@ -91,9 +93,9 @@
 (defn main-panel
   "main panel for the ticket status query application"
   []
-  (let [name (re-frame/subscribe [::subs/name])]
+  (let [name @(re-frame/subscribe [::subs/name])]
     [:div
-     [:h1 "Welcome to " @name]
+     [:h1 "Welcome to " name]
      [:div.input [date-input]]
      [:div.report [inventory-report]]]))
 

@@ -1,10 +1,10 @@
 (defproject frontend "0.0.1-US2frontend"
-  :dependencies [[org.clojure/clojure "1.10.0"]
+  :dependencies [[org.clojure/clojure "1.10.1"]
                  [org.clojure/clojurescript "1.10.520"]
                  [com.andrewmcveigh/cljs-time "0.5.2"]
                  [cljs-http "0.1.46"]
                  [reagent "0.8.1"]
-                 [re-frame "0.10.6"]]
+                 [re-frame "0.10.8"]]
 
   :plugins [[lein-cljsbuild "1.1.7"]]
 

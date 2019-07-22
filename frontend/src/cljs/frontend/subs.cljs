@@ -1,14 +1,13 @@
 (ns frontend.subs
   (:require
-    [re-frame.core :as re-frame]
-    [frontend.db :as db]))
+    [re-frame.core :as re-frame]))
 
 (re-frame/reg-sub
  ::name
- (fn [_]
-   (:name @db/db)))
+ (fn [db _]
+   (:name db)))
 
 (re-frame/reg-sub
  ::inventory
  (fn [db _]
-   (:inventory @db/db)))
+   (:inventory db)))
