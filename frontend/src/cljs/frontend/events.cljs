@@ -5,6 +5,7 @@
     [cljs.pprint :refer [pprint]]
     [ajax.core :as ajax]
     [re-frame.core :as re-frame]
+    [day8.re-frame.http-fx]
     [cljs-http.client :as http]
     [cljs.core.async :refer [<!]]))
 
@@ -21,6 +22,7 @@
       (log (pprint inventory))
       (assoc db :inventory inventory))))
 
+; https://github.com/Day8/re-frame/blob/master/docs/Talking-To-Servers.md
 (re-frame/reg-event-fx
   ::request-inventory
   (fn [{db :db} [_ show-date]]
@@ -31,6 +33,23 @@
                   :on-success      [:process-response]
                   :on-failure      [:bad-response]}
      :db         (assoc db :loading? true)}))
+
+(re-frame/reg-event-db
+  :process-response
+  (fn
+    [db [_ response]]
+    (-> db
+        (assoc :loading? false)
+        (assoc :inventory (:inventory (:body response))))))
+
+(re-frame/reg-event-db
+  :bad-response
+  (fn
+    [db [_ response]]
+    (-> db
+        (assoc :loading? false)
+        (assoc :inventory []))
+    (log (pprint (js->clj response)))))
 
 (re-frame/reg-event-db
   ::initialize-db

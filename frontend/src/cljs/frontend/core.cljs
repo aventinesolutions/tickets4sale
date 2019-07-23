@@ -18,5 +18,6 @@
 
 (defn ^:export init []
   (defonce _init (re-frame/dispatch-sync [::events/initialize-db]))
+  (re-frame/dispatch [::events/request-inventory "2018-08-01"])
   (dev-setup)
   (mount-root))

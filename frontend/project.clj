@@ -5,7 +5,8 @@
                  [cljs-http "0.1.46"]
                  [cljs-ajax "0.7.5"]
                  [reagent "0.8.1"]
-                 [re-frame "0.10.8"]]
+                 [re-frame "0.10.8"]
+                 [day8.re-frame/http-fx "0.1.6"]]
 
   :plugins [[lein-cljsbuild "1.1.7"]]
 

@@ -1,5 +1,6 @@
 (ns frontend.views
   (:require
+    [cljs.pprint :refer [pprint]]
     [clojure.string :as str]
     [cljs-time.core :as time]
     [cljs-time.format :as formatters]
@@ -51,7 +52,7 @@
          :on-click (fn [event]
                      (let [value (-> event .-target .-value)]
                        (.preventDefault event)
-                       (re-frame/dispatch [::events/report (:value @state)])))}]])))
+                       (re-frame/dispatch [::events/request-inventory (:value @state)])))}]])))
 
 (defn show-status
   "provides the ticket sales status of a individual show"
@@ -83,19 +84,22 @@
 (defn inventory-report
   "provides the inventory of tickets with their statuses"
   []
-  (let [inventory @(re-frame/subscribe [::subs/inventory])]
+  (let [inventory (re-frame/subscribe [::subs/inventory])
+       loading? (re-frame/subscribe [::subs/loading?])]
     (fn []
-      [:div.inventory
-       [:div.genre-list
-        (for [group inventory]
-          ^{:key (:genre group)} (genre-group group))]])))
+      (log "inventory" (pprint @inventory))
+      (if @loading? [:h3.loading "loading ..."]
+                    [:div.inventory
+                     [:div.genre-list
+                      (for [group @inventory]
+                        ^{:key (:genre group)} (genre-group group))]]))))
 
 (defn main-panel
   "main panel for the ticket status query application"
   []
-  (let [name @(re-frame/subscribe [::subs/name])]
+  (let [name (re-frame/subscribe [::subs/name])]
     [:div
-     [:h1 "Welcome to " name]
+     [:h1 "Welcome to " @name]
      [:div.input [date-input]]
      [:div.report [inventory-report]]]))
 

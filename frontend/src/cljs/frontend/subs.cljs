@@ -11,3 +11,8 @@
  ::inventory
  (fn [db _]
    (:inventory db)))
+
+(re-frame/reg-sub
+  ::loading?
+  (fn [db _]
+    (:loading? db)))
