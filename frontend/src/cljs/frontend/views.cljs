@@ -75,6 +75,7 @@
   "provides a group listing of show ticket status by genre"
   [group]
   (let [genre (:genre group)]
+    ^{:key genre}
     [:div.genre-group
      [:h2.genre genre]
      (for [show (:shows group)]
@@ -87,7 +88,6 @@
   (let [inventory (re-frame/subscribe [::subs/inventory])
        loading? (re-frame/subscribe [::subs/loading?])]
     (fn []
-      (log "inventory" (pprint @inventory))
       (if @loading? [:h3.loading "loading ..."]
                     [:div.inventory
                      [:div.genre-list
