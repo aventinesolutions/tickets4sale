@@ -14,11 +14,16 @@
 
 (def date-format (formatters/formatters :date))
 
+(defn- show-title-as-key
+  "filters out alpha-numerics from title string to be use as key"
+  [title]
+  (str/lower-case (apply str (re-seq #"[a-zA-Z0-9]" title))))
+
 (defn parse-date
   "parse date from string using the format YYYY-MM-DD, return nil if format is invalid"
   [value]
   (try (formatters/parse date-format value)
-    (catch js/Object e nil)))
+       (catch js/Object e nil)))
 
 (defn date-input
   "component for inputting the show date"
@@ -37,14 +42,14 @@
           :width      10
           :on-change  (fn [event]
                         (.preventDefault event)
-                        (let [value     (-> event .-target .-value)
+                        (let [value (-> event .-target .-value)
                               show-date (parse-date value)
-                              error     (if (nil? show-date)
-                                          "Please enter a valid date using format YYYY-DD-MM")]
+                              error (if (nil? show-date)
+                                      "Please enter a valid date using format YYYY-DD-MM")]
                           (swap! state assoc
-                                 :value     value
+                                 :value value
                                  :show-date show-date
-                                 :error     error)))}]]
+                                 :error error)))}]]
        [:input.query-status-submit
         {:type     :submit
          :value    "Query ticket inventory"
@@ -56,9 +61,10 @@
 
 (defn show-status
   "provides the ticket sales status of a individual show"
-  [show]
-  (let [title  (:title show)
+  [show key]
+  (let [title (:title show)
         status (:status show)]
+    ^{:key key}
     [:div.show
      [:h3.title title]
      [:div.tickets-left
@@ -79,8 +85,7 @@
     [:div.genre-group
      [:h2.genre genre]
      (for [show (:shows group)]
-       ^{:key (str genre "-" (:title show))}
-       (show-status show))]))
+       (show-status show (str genre "-" (show-title-as-key (:title show)))))]))
 
 (defn inventory-report
   "provides the inventory of tickets with their statuses"
