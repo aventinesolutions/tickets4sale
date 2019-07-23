@@ -14,8 +14,13 @@
 
 (def date-format (formatters/formatters :date))
 
+(defn- status-as-classname
+  "given a show status, returns a usable class name for styling"
+  [status]
+  (str/replace status #" " "-"))
+
 (defn- show-title-as-key
-  "filters out alpha-numerics from title string to be use as key"
+  "filters out alpha-numeric characters from title string to be use as key"
   [title]
   (str/lower-case (apply str (re-seq #"[a-zA-Z0-9]" title))))
 
@@ -75,7 +80,7 @@
       [:span (:tickets-available show)]]
      [:div.status
       [:label "Status"]
-      [:span {:class (str/replace status #" " "-")} status]]]))
+      [:span {:class (status-as-classname status)} status]]]))
 
 (defn genre-group
   "provides a group listing of show ticket status by genre"
@@ -107,4 +112,3 @@
      [:h1 "Welcome to " @name]
      [:div.input [date-input]]
      [:div.report [inventory-report]]]))
-
