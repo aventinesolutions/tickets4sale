@@ -80,6 +80,40 @@ h3 {
     max-width: 15em;
 }
 
+.loading {
+    font-size: 1.5em;
+    animation: pulse 1s infinite;
+    border-radius: 10%;
+    max-width: 5em;
+}
+
+@-webkit-keyframes pulse {
+    0% {
+        -webkit-box-shadow: 0 0 0 0 rgba(34, 62, 233, 0.4);
+    }
+    70% {
+        -webkit-box-shadow: 0 0 0 10px rgba(34, 62, 233, 0);
+    }
+    100% {
+        -webkit-box-shadow: 0 0 0 0 rgba(34, 62, 233, 0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        -moz-box-shadow: 0 0 0 0 rgba(34, 62, 233, 0.41);
+        box-shadow: 0 0 0 0 rgba(34, 62, 233, 0.4);
+    }
+    70% {
+        -moz-box-shadow: 0 0 0 10px rgba(34, 62, 233, 0);
+        box-shadow: 0 0 0 10px rgba(34, 62, 233, 0);
+    }
+    100% {
+        -moz-box-shadow: 0 0 0 0 rgba(34, 62, 233, 0);
+        box-shadow: 0 0 0 0 rgba(34, 62, 233, 0);
+    }
+}
+
 .show .title, .tickets-left, .tickets-available, .status {
     padding: 0.25em;
 }
