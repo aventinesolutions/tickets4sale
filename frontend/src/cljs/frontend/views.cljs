@@ -2,15 +2,11 @@
   (:require
     [cljs.pprint :refer [pprint]]
     [clojure.string :as str]
-    [cljs-time.core :as time]
     [cljs-time.format :as formatters]
     [reagent.core :as reagent]
     [re-frame.core :as re-frame]
     [frontend.subs :as subs]
-    [frontend.events :as events]
-    [frontend.db :as db]))
-
-(defn log [& args] (apply (.-log js/console) args))
+    [frontend.events :as events]))
 
 (def date-format (formatters/formatters :date))
 
