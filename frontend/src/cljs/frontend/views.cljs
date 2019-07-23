@@ -94,7 +94,7 @@
   (let [inventory (re-frame/subscribe [::subs/inventory])
        loading? (re-frame/subscribe [::subs/loading?])]
     (fn []
-      (if @loading? [:h3.loading "loading ..."]
+      (if @loading? [:h4.loading "loading ..."]
                     [:div.inventory
                      [:div.genre-list
                       (for [group @inventory]
